@@ -1,0 +1,7 @@
+{
+    "env": {
+        "DB_USER": "azamat_afzalov",
+        "DB_PASSWORD": "299992628",
+        "DB_NAME": "auth-with-mern"
+    }
+}

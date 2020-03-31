@@ -4,9 +4,30 @@ const bcrypt = require('bcrypt');
 
 const login = async(req, res, next) => {
     const { email, password } = req.body;
-    return res.json({
-        msg: 'hello'
-    })
+    let existingUser;
+    try {
+        existingUser = await User.findOne({ email: email })
+    } catch (err) {
+        const error = new HttpError('logging in failed , please try again later')
+        return next(error)
+    }
+    if (!existingUser) {
+        const error = new HttpError('This user does not exist')
+        return next(error);
+    }
+    let isValidPassword = false;
+    try {
+        isValidPassword = await bcrypt.compare(password, existingUser.password)
+    } catch (err) {
+        const error = new HttpError('Could not log you in , please check your credentials', 500)
+        return next(error);
+    }
+    if (!isValidPassword) {
+        const error = new HttpError('Invalid credentials , could not log you in');
+        return next(error);
+    }
+    res.json({ msg: "You logged in ", username: existingUser.name, email: existingUser.email })
+
 }
 const signUp = async(req, res, next) => {
     const { name, email, password } = req.body;
@@ -43,9 +64,7 @@ const signUp = async(req, res, next) => {
 
     res.status(201).json({ usreId: createdUser.id, email: createdUser.email })
 };
-const getUserById = async(req, res, next) => {};
 const getAllUsers = async(req, res, next) => {
-    console.log('getAllUsers function ran')
     let users;
     try {
         users = await User.find({}, '-password -id');
@@ -63,5 +82,4 @@ const getAllUsers = async(req, res, next) => {
 
 exports.login = login;
 exports.signUp = signUp;
-exports.getUserById = getUserById;
 exports.getAllUsers = getAllUsers;

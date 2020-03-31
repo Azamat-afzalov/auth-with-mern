@@ -1,0 +1,16 @@
+.Navbar-nav {
+    display: flex;
+    justify-content: space-between;
+    line-height: 100%;
+}
+
+.Navbar-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Navbar-logo a {
+    text-decoration: none;
+    color: #fff;
+}

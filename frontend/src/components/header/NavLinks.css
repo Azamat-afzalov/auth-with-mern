@@ -1,0 +1,19 @@
+.NavLinks-ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.NavLinks-li {
+    margin-left: 1em;
+}
+
+.NavLinks-li-a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.NavLinks-li-active {
+    color: #000;
+}

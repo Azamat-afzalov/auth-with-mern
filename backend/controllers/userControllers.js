@@ -48,7 +48,7 @@ const getAllUsers = async(req, res, next) => {
     console.log('getAllUsers function ran')
     let users;
     try {
-        users = await User.find({}, '-password');
+        users = await User.find({}, '-password -id');
     } catch (err) {
         const error = new HttpError(
             'Fetching users failed, please try again later',
@@ -57,7 +57,7 @@ const getAllUsers = async(req, res, next) => {
         return next(error);
     }
     res.json({
-        users: users.map(user => usre.toObject({ getters: true }))
+        users: users.map(user => user.toObject({ getters: true }))
     })
 };
 

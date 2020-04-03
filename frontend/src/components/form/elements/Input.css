@@ -1,0 +1,39 @@
+:root {
+    --form-input-clr: #303e96;
+    --transition-time: 0.4s;
+}
+
+.Input-Input-box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: 2px solid var(--form-input-clr);
+    transition: var(--transition-time);
+    margin-bottom: 1em;
+    width: 100%;
+}
+
+.Input-Input-box svg {
+    font-size: 1em;
+    color: var(--form-input-clr);
+    transition: var(--transition-time);
+}
+
+.Input-Input {
+    box-sizing: border-box;
+    display: inline-block;
+    box-sizing: border-box;
+    border: none;
+    height: 100%;
+    background: transparent;
+    font-size: 1em;
+    padding: 0.5em;
+    outline: none;
+    color: black;
+    transition: var(--transition-time);
+}
+
+.Input-Icon-box {
+    padding: 0.5em;
+    border-right: 2px solid var(--form-input-clr)
+}

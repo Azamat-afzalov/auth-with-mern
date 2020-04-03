@@ -3,14 +3,21 @@ import './Input.css';
 
 const Input = (props) => {
     return (
-        <input
-            className={`${props.className}`}
-            type={props.type}
-            id={props.id}
-            name={props.name}
-            onChange={props.onChange}
-            value={props.value}
-        />
+        <div>
+            <input
+                className={`${props.className}`}
+                type={props.type}
+                id={props.id}
+                name={props.name}
+                onChange={props.onChange}
+                value={props.value}
+                ref={props.reference}
+            />
+            {/* {
+                props.err && <p className={'Input-error-message'}>{props.errMessage}</p>
+            } */}
+        </div>
+
     )
 }
 

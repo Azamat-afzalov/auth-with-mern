@@ -4,6 +4,7 @@ import Button from '../elements/Button';
 import InputWithIcon from '../elements/InputWithIcon';
 import {AiOutlineMail} from 'react-icons/ai';
 import {FiHash} from 'react-icons/fi';
+import { useForm } from 'react-hook-form'
 
 
 import './Form.css';
@@ -12,25 +13,35 @@ import './Login.css';
 
 const Login = () => {
     const {login} = useContext(AuthContext);
-    const [email ,setEmail] = useState();
+    // const [email ,setEmail] = useState();
+    const { register, handleSubmit, errors } = useForm();
+    const onSubmit = data => {
+        console.log(data);
+    }
 
 
     return (
-        <form action="POST" className="Form-wrapper">
+        <form action="POST" className="Form-wrapper" onSubmit={handleSubmit(onSubmit)}>
             <InputWithIcon
                 icon={<AiOutlineMail/>}
                 id="email"
                 type="email"
                 name="email"
+                reference={register({required : true , type: 'email' })}
+                err={errors.email}
+                errMessage="Please enter a valid email"
             />
             <InputWithIcon
                 icon={<FiHash/>}
                 id="password"
                 type="password"
                 name="password"
+                reference={register({required : true , minLength : 5})}
+                err={errors.password}
+                errMessage="Password must contain at least 5 characters "
             />
             <Button
-                onClick={login}
+                // onClick={login}
                 type="submit"
                 buttonGradient
             >   Login

@@ -9,7 +9,7 @@
     align-items: center;
     border: 2px solid var(--form-input-clr);
     transition: var(--transition-time);
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
     width: 100%;
 }
 
@@ -36,4 +36,23 @@
 .Input-Icon-box {
     padding: 0.5em;
     border-right: 2px solid var(--form-input-clr)
+}
+
+.Input-error-message {
+    font-size: 0.75em;
+    margin: 0;
+    padding-bottom: 1em;
+    color: red;
+    display: inline-block;
+    width: 100%;
+    transition: 0.5s;
+}
+
+.Input-error-message:last-of-type {
+    margin-bottom: 1em;
+}
+
+.Input-no-errors {
+    margin-bottom: 1em;
+    transition: 2s;
 }

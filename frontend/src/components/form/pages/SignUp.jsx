@@ -1,7 +1,8 @@
 import React from 'react';
-// import  {useContext} from 'react';
-// import {AuthContext} from '../../../context/auth-context';
-// import useSignUpForm from '../../../hooks/useSignUpForm';
+import  {useContext} from 'react';
+import {useHttpClient} from '../../../hooks/http-hook';
+import {AuthContext} from '../../../context/auth-context';
+
 import InputWithIcon from '../elements/InputWithIcon';
 import Button from '../elements/Button';
 import { useForm } from 'react-hook-form'
@@ -17,11 +18,23 @@ import './Form.css';
 
 
 const SignUp = () => {
-    // const {login} = useContext(AuthContext);
-    // const {inputs, handleInputChange, handleSubmit} = useSignUpForm();
+    const {login} = useContext(AuthContext);
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const { register, handleSubmit, errors } = useForm()
-    const onSubmit = data => {
-        console.log(data);
+    const onSubmit = async ( data , evt )  => {
+        try{
+            await sendRequest(`http://localhost:5000/api/users/signup`,
+            "POST",
+            JSON.stringify({
+                username : data.username,
+                email : data.email,
+                password : data.password
+            }),
+            {
+                'Content-Type' : 'application/json'
+            })
+        }catch(err){}
+
     }
     return (
         <form className="Form-wrapper" onSubmit={handleSubmit(onSubmit)}>
@@ -31,6 +44,7 @@ const SignUp = () => {
                 type="username"
                 name="username"
                 reference={register({required : true , minLength : 5})}
+                placeholder="Enter a username"
                 err={errors.username}
                 errMessage="Username must contain at least 5 characters "
             />
@@ -40,6 +54,7 @@ const SignUp = () => {
                 id="email"
                 type="email"
                 name="email"
+                placeholder="Enter an email"
                 reference={register({required : true})}
                 err={errors.email}
                 errMessage="Please enter a valid email"
@@ -49,6 +64,7 @@ const SignUp = () => {
                 id="password"
                 type="password"
                 name="password"
+                placeholder="Enter a password"
                 reference={register({required : true , minLength : 5})}
                 err={errors.password}
                 errMessage="Password must contain at least 5 characters"
@@ -58,7 +74,7 @@ const SignUp = () => {
                 // onClick={login}
                 type="submit"
                 buttonGradient
-            >   Login
+            >   Sign Up
             </Button>
         </form>
     )

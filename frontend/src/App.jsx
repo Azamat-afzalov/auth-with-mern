@@ -7,7 +7,8 @@ import {
 
 } from 'react-router-dom';
 import {AuthContext} from './context/auth-context';
-
+import Users from './components/user/pages/Users';
+import User from './components/user/pages/User';
 import Header from './components/header/Header';
 import Login from './components/form/pages/Login';
 import SignUp from './components/form/pages/SignUp';
@@ -23,10 +24,13 @@ function App() {
         routes = (
             <Switch>
                 <Route path="/" exact>
-
+                    <Users/>
                 </Route>
                 <Route path="/logout">
                     <LogOut/>
+                </Route>
+                <Route path="/users/:id">
+                    <User/>
                 </Route>
             </Switch>
         )
@@ -34,12 +38,16 @@ function App() {
         routes = (
             <Switch>
                 <Route path="/" exact>
+                    <Users/>
                 </Route>
                 <Route path="/login" exact>
                     <Login/>
                 </Route>
                 <Route path="/signup">
                     <SignUp/>
+                </Route>
+                <Route path="/users/:userId">
+                    <User/>
                 </Route>
             </Switch>
         )

@@ -25,6 +25,7 @@
     box-sizing: border-box;
     border: none;
     height: 100%;
+    width: 100%;
     background: transparent;
     font-size: 1em;
     padding: 0.5em;

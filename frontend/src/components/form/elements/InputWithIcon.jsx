@@ -17,6 +17,7 @@ const InputWithIcon = (props) => {
                 name={props.name}
                 onChange={props.onChange}
                 value={props.value}
+                placeholder={props.placeholder}
                 reference={props.reference}
                 err={props.err}
                 errMessage={props.errMessage}

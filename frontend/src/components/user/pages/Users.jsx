@@ -13,9 +13,7 @@ const Users = () => {
         const fetchUsers = async() => {
             try{
                 const responseData = await sendRequest(`http://localhost:5000/api/users/all`)
-                console.log(responseData.users);
                 setUsers(responseData.users);
-
             }catch(err){}
         }
         fetchUsers()

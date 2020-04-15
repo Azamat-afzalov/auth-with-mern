@@ -20,8 +20,9 @@ const Login = () => {
     const history = useHistory();
     const onSubmit = async (data , evt) => {
         evt.preventDefault();
+        let responseData
         try {
-            await sendRequest(`http://localhost:5000/api/users/login` ,
+            responseData = await sendRequest(`http://localhost:5000/api/users/login` ,
             "POST",
             JSON.stringify({
                 email: data.email,
@@ -31,12 +32,14 @@ const Login = () => {
                 'Content-Type': 'application/json'
             }
             )
-            login();
+
+            login(responseData.userId , responseData.token);
 
         } catch (error) {
             console.log(error);
         }
-
+        // console.log(responseData.userId)
+        history.push(`/`)
     }
 
 

@@ -4,13 +4,14 @@ const router = express.Router();
 const userControllers = require('../controllers/userControllers');
 const verifyToken = require('../middlewares/verifyToken');
 router.get('/all', userControllers.getAllUsers);
-router.get('/:userId', userControllers.getUserById);
+
 
 
 router.post('/login', userControllers.login);
 router.post('/signup', userControllers.signUp);
 
 router.use(verifyToken);
+router.get('/:userId', userControllers.getUserById);
 
 
 

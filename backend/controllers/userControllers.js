@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 
 const login = async(req, res, next) => {
     const { email, password } = req.body;
-    // console.log(email, password);
     let existingUser;
     try {
         existingUser = await User.findOne({ email: email })
@@ -32,7 +31,7 @@ const login = async(req, res, next) => {
     // Create and sing token
     let token;
     try {
-        token = jwt.sign({ userId: existingUser.id, email: existingUser.email },
+        token = jwt.sign({ userId: existingUser.id },
                 process.env.JWT_KEY, { expiresIn: '1h' }
             )
             //res.headers('Authorization', token)
@@ -44,13 +43,13 @@ const login = async(req, res, next) => {
         msg: "You logged in ",
         username: existingUser.name,
         email: existingUser.email,
+        userId: existingUser._id,
         token: token
     })
 
 }
 const signUp = async(req, res, next) => {
     const { username, email, password } = req.body;
-    console.log(username, email, password);
     let existingUser;
     try {
         existingUser = await User.findOne({ email: email });
@@ -81,11 +80,21 @@ const signUp = async(req, res, next) => {
         const error = new HttpError('Creating user failed , error in saving to database', 500);
         return next(error);
     }
-
+    let token;
+    try {
+        token = jwt.sign({ userId: createdUser.id },
+                process.env.JWT_KEY, { expiresIn: '1h' }
+            )
+            //res.headers('Authorization', token)
+    } catch (err) {
+        const error = new HttpError('Signing up failed at creating token', 500);
+        return next(error);
+    }
     res.status(201).json({
         userId: createdUser.id,
         email: createdUser.email,
-        username: createdUser.username
+        username: createdUser.username,
+        token: token
     })
 };
 const getAllUsers = async(req, res, next) => {
@@ -106,9 +115,8 @@ const getAllUsers = async(req, res, next) => {
 const getUserById = async(req, res, next) => {
     let user;
     const { userId } = req.params;
-    console.log(userId);
     try {
-        user = await User.findById(userId)
+        user = await User.findById(userId);
     } catch (err) {
         const error = new HttpError(
             'Fetching user failed, please try again later',
@@ -116,7 +124,8 @@ const getUserById = async(req, res, next) => {
         );
         return next(error);
     }
-    res.json({ user: user })
+    console.log(user, 'sucess')
+    res.json({ user: user, success: true })
 }
 exports.login = login;
 exports.signUp = signUp;

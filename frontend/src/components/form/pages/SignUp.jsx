@@ -1,5 +1,5 @@
-import React from 'react';
-import  {useContext} from 'react';
+import React,{useContext} from 'react';
+import { useHistory } from 'react-router-dom';
 import {useHttpClient} from '../../../hooks/http-hook';
 import {AuthContext} from '../../../context/auth-context';
 
@@ -20,10 +20,12 @@ import './Form.css';
 const SignUp = () => {
     const {login} = useContext(AuthContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
-    const { register, handleSubmit, errors } = useForm()
+    const { register, handleSubmit, errors } = useForm();
+    const history = useHistory();
     const onSubmit = async ( data , evt )  => {
+        let responseData;
         try{
-            await sendRequest(`http://localhost:5000/api/users/signup`,
+            responseData = await sendRequest(`http://localhost:5000/api/users/signup`,
             "POST",
             JSON.stringify({
                 username : data.username,
@@ -33,7 +35,10 @@ const SignUp = () => {
             {
                 'Content-Type' : 'application/json'
             })
-        }catch(err){}
+            login(responseData.userId , responseData.token);
+
+        }catch(err){};
+        history.push('/');
 
     }
     return (

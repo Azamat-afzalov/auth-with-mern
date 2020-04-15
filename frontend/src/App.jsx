@@ -7,6 +7,7 @@ import {
 
 } from 'react-router-dom';
 import {AuthContext} from './context/auth-context';
+import {useAuth} from './hooks/auth-hook.js';
 import Users from './components/user/pages/Users';
 import User from './components/user/pages/User';
 import Header from './components/header/Header';
@@ -15,12 +16,12 @@ import SignUp from './components/form/pages/SignUp';
 import LogOut from './components/form/pages/LogOut';
 
 function App() {
-    const [isLoggedIn , setIsLoggedIn] = useState(false);
-    const login = () => setIsLoggedIn(true);
-    const logOut = () => setIsLoggedIn(false);
+    const {token , login , logout  , userId} = useAuth();
+
+
     let routes;
 
-    if(isLoggedIn){
+    if(token){
         routes = (
             <Switch>
                 <Route path="/" exact>
@@ -29,12 +30,12 @@ function App() {
                 <Route path="/logout">
                     <LogOut/>
                 </Route>
-                <Route path="/users/:id">
-                    <User/>
+                <Route path="/users/:userId" component={User}>
+
                 </Route>
             </Switch>
         )
-    }else if(!isLoggedIn){
+    }else if(!token){
         routes = (
             <Switch>
                 <Route path="/" exact>
@@ -46,17 +47,18 @@ function App() {
                 <Route path="/signup">
                     <SignUp/>
                 </Route>
-                <Route path="/users/:userId">
-                    <User/>
+                <Route path="/users/:userId" component={User}>
                 </Route>
             </Switch>
         )
     }
     return (
         <AuthContext.Provider value={{
-            isLoggedIn : isLoggedIn,
+            isLoggedIn : !!token,
+            token: token,
             login : login,
-            logOut : logOut
+            logOut : logout,
+            userId: userId,
             }}>
             <Router>
                 <main className="main-page">
